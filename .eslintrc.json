@@ -15,6 +15,26 @@
               {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]
+              },
+              {
+                "sourceTag": "scope:frontend",
+                "onlyDependOnLibsWithTags": ["scope:frontend", "scope:shared"],
+                "bannedExternalImports": ["@nestjs/*", "@libs-nest/*"]
+              },
+              {
+                "sourceTag": "scope:backend",
+                "onlyDependOnLibsWithTags": ["scope:backend", "scope:shared"],
+                "bannedExternalImports": ["@angular/*", "@libs-ng/*"]
+              },
+              {
+                "sourceTag": "scope:shared",
+                "onlyDependOnLibsWithTags": ["scope:shared"],
+                "bannedExternalImports": [
+                  "@angular/*",
+                  "@nestjs/*",
+                  "@libs-ng/*",
+                  "@libs-nest/*"
+                ]
               }
             ]
           }

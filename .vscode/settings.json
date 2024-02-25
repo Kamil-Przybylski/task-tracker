@@ -1,0 +1,36 @@
+{
+  "cSpell.words": ["devkit", "fastify", "nestjs", "typeorm"],
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#3636a3",
+    "activityBar.background": "#3636a3",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#180808",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#3636a3",
+    "statusBar.background": "#29297d",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#3636a3",
+    "statusBarItem.remoteBackground": "#29297d",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "sideBar.foreground": "#e7e7e7b3",
+    "titleBar.activeBackground": "#29297d",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#29297d99",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#29297d",
+  "angular-schematics.angularDisableProjectPathCheck": true,
+  "angular-schematics.schematicsDefaultOptions": {
+    "angular-*": {
+      "style": "scss"
+    }
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "eslint.format.enable": true
+}
