@@ -73,5 +73,6 @@
       "standalone": true,
       "skipTests": true
     }
-  }
+  },
+  "nxCloud": false
 }

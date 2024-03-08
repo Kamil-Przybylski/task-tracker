@@ -1,1 +1,1 @@
-export * from './lib/auth-web/auth-web.component';
+export * from './lib/feature-sign-in/feature-sign-in.component';

@@ -1,1 +1,1 @@
-export * from './lib/core-web/core-web.component';
+export * from './lib/config';
