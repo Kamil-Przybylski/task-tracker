@@ -1,13 +1,20 @@
-import { Controller, Get } from '@nestjs/common';
-
-import { AppService } from './app.service';
+import { UserResDto } from '@libs/auth-api';
+import { UserEntity } from '@libs/core-api';
+import { GetUser, JwtAuthGuard } from '@libs/shared-api';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 
 @Controller()
+@UseGuards(JwtAuthGuard)
+@UseInterceptors(ClassSerializerInterceptor)
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
   @Get()
-  getData() {
-    return this.appService.getData();
+  getData(@GetUser() user: UserEntity) {
+    return { api: true, user: new UserResDto(user) };
   }
 }

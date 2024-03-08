@@ -6,22 +6,21 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
-import { AppModule } from './app/app.module';
+import { IConfig } from '@libs/core-api';
 import { ConfigService } from '@nestjs/config';
+import { AppModule } from './app/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // const cs = app.get(ConfigService);
-  console.log(666.1, process.env.DATABASE_USER)
-  console.log(666.2, process.env.DATABASE_PASSWORD)
+  const cs: ConfigService<IConfig> = app.get(ConfigService);
+  const globalPrefix = cs.get('API_PREFIX');
+  const port = cs.get('API_PORT');
 
-  const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3000;
   await app.listen(port);
   Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
   );
 }
 

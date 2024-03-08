@@ -1,0 +1,9 @@
+{
+  "name": "core-web",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/core/web/src",
+  "prefix": "task-tracker",
+  "tags": ["scope:frontend"],
+  "projectType": "library",
+  "targets": {}
+}

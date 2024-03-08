@@ -14,7 +14,15 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@libs/auth-api": ["libs/auth/api/src/index.ts"],
+      "@libs/auth-web": ["libs/auth/web/src/index.ts"],
+      "@libs/core-api": ["libs/core/api/src/index.ts"],
+      "@libs/core-web": ["libs/core/web/src/index.ts"],
+      "@libs/shared": ["libs/shared/shared/src/index.ts"],
+      "@libs/shared-api": ["libs/shared/api/src/index.ts"],
+      "@libs/auth-shared": ["libs/auth/shared/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

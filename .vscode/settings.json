@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["devkit", "fastify", "nestjs", "typeorm"],
+  "cSpell.words": ["devkit", "dtos", "fastify", "nestjs", "typeorm"],
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#3636a3",
     "activityBar.background": "#3636a3",
