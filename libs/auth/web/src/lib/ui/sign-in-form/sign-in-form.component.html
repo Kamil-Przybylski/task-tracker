@@ -1,3 +1,29 @@
-<form class="flex flex-col gap-1" [formGroup]="loginForm">
+<form class="flex flex-col gap-3" [formGroup]="loginForm">
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      formControlName="email"
+      autocomplete
+      type="email"
+      placeholder="Type your email"
+    />
+    @if (loginForm.get('email')?.invalid) {
+    <mat-error>Invalid email!</mat-error>
+    }
+  </mat-form-field>
 
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      formControlName="password"
+      autocomplete
+      type="password"
+      placeholder="Enter password"
+    />
+    @if (loginForm.get('password')?.invalid) {
+    <mat-error>Invalid password!</mat-error>
+    }
+  </mat-form-field>
 </form>

@@ -1,4 +1,4 @@
-
+@use 'sass:map';
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
@@ -12,30 +12,151 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$task-tracker-primary: mat.define-palette(mat.$indigo-palette);
-$task-tracker-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$primary-palette: (
+  50: map.get($primary, 50),
+  100: map.get($primary, 100),
+  200: map.get($primary, 200),
+  300: map.get($primary, 300),
+  400: map.get($primary, 400),
+  500: map.get($primary, 500),
+  600: map.get($primary, 600),
+  700: map.get($primary, 700),
+  800: map.get($primary, 800),
+  900: map.get($primary, 900),
+  contrast: (
+    50: map.get($primary, text-dark),
+    100: map.get($primary, text-dark),
+    200: map.get($primary, text-dark),
+    300: map.get($primary, text-dark),
+    400: map.get($primary, text-dark),
+    500: map.get($primary, text-dark),
+    600: map.get($primary, text-dark),
+    700: map.get($primary, text-dark),
+    800: map.get($primary, text-light),
+    900: map.get($primary, text-light),
+  ),
+);
+$app-primary: mat.define-palette($primary-palette);
 
-// The warn palette is optional (defaults to red).
-$task-tracker-warn: mat.define-palette(mat.$red-palette);
+$accent-palette: (
+  50: map.get($accent, 50),
+  100: map.get($accent, 100),
+  200: map.get($accent, 200),
+  300: map.get($accent, 300),
+  400: map.get($accent, 400),
+  500: map.get($accent, 500),
+  600: map.get($accent, 600),
+  700: map.get($accent, 700),
+  800: map.get($accent, 800),
+  900: map.get($accent, 900),
+  contrast: (
+    50: map.get($accent, text-dark),
+    100: map.get($accent, text-dark),
+    200: map.get($accent, text-dark),
+    300: map.get($accent, text-dark),
+    400: map.get($accent, text-dark),
+    500: map.get($accent, text-dark),
+    600: map.get($accent, text-dark),
+    700: map.get($accent, text-dark),
+    800: map.get($accent, text-light),
+    900: map.get($accent, text-light),
+  ),
+);
+$app-accent: mat.define-palette($accent-palette);
+
+$warn-palette: (
+  50: map.get($warn, 50),
+  100: map.get($warn, 100),
+  200: map.get($warn, 200),
+  300: map.get($warn, 300),
+  400: map.get($warn, 400),
+  500: map.get($warn, 500),
+  600: map.get($warn, 600),
+  700: map.get($warn, 700),
+  800: map.get($warn, 800),
+  900: map.get($warn, 900),
+  contrast: (
+    50: map.get($warn, text-dark),
+    100: map.get($warn, text-dark),
+    200: map.get($warn, text-dark),
+    300: map.get($warn, text-dark),
+    400: map.get($warn, text-dark),
+    500: map.get($warn, text-dark),
+    600: map.get($warn, text-dark),
+    700: map.get($warn, text-dark),
+    800: map.get($warn, text-light),
+    900: map.get($warn, text-light),
+  ),
+);
+$app-warn: mat.define-palette($warn-palette);
+
+$background-palette: (
+  status-bar: map.get($background, 600-l20),
+  app-bar: map.get($background, 600-l5),
+  background: map.get($background, 600),
+  hover: rgba(255, 255, 255, 0.04),
+  card: map.get($background, 500),
+  dialog: map.get($background, 500),
+  disabled-button: rgba(255, 255, 255, 0.12),
+  raised-button: map.get($background, 500),
+  focused-button: rgba(255, 255, 255, 0.12),
+  selected-button: map.get($background, 600-l20),
+  selected-disabled-button: map.get($background, 500),
+  disabled-button-toggle: map.get($background, 600-l10),
+  unselected-chip: map.get($background, 600-l20),
+  disabled-list-option: map.get($background, 600-l10),
+  tooltip: map.get($background, 600-l20),
+);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$task-tracker-theme: mat.define-light-theme((
-  color: (
-    primary: $task-tracker-primary,
-    accent: $task-tracker-accent,
-    warn: $task-tracker-warn,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0
-));
+$app-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $app-primary,
+      accent: $app-accent,
+      warn: $app-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
+
+$color-map: map.get($app-theme, 'color');
+$background-color-map: map.get($color-map, background);
+$background-color-map: map.merge($background-color-map, $background-palette);
+
+$modified-color-map: map.merge(
+  $color-map,
+  (
+    background: $background-color-map,
+  )
+);
+$app-theme: map.merge(
+  $app-theme,
+  (
+    color: $modified-color-map,
+  )
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-component-themes($task-tracker-theme);
+@include mat.all-component-themes($app-theme);
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+// fix for material and tailwindcss conflict
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field
+  .mdc-notched-outline__notch {
+  border-right-style: hidden;
+}
