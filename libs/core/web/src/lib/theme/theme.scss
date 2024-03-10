@@ -1,0 +1,12 @@
+@import './styles/colors.scss';
+@import './styles/material.scss';
+@import './styles/tailwind.scss';
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
