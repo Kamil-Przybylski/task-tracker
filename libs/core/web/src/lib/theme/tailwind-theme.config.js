@@ -1,6 +1,6 @@
 const plugin = require('tailwindcss/plugin');
 
-const themePlugin = plugin(function () {}, {
+const themePlugin = plugin(() => {}, {
   theme: {
     colors: {
       background: {

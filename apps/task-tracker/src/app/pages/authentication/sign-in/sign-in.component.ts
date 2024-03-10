@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AwFeatureSignInComponent } from '@libs/auth-web';
 
 @Component({
-  selector: 'tt-sign-in',
+  selector: 'app-sign-in',
   standalone: true,
   imports: [AwFeatureSignInComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,

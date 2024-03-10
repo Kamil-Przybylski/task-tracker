@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   imports: [RouterModule],
   standalone: true,
-  selector: 'tt-root',
+  selector: 'app-root',
   template: `<router-outlet /> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

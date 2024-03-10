@@ -6,15 +6,14 @@
       "files": ["*.ts"],
       "extends": [
         "plugin:@nx/angular",
-        "plugin:@angular-eslint/template/process-inline-templates",
-        "plugin:@ngrx/all"
+        "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
           {
             "type": "attribute",
-            "prefix": "taskTracker",
+            "prefix": "app",
             "style": "camelCase"
           }
         ],
@@ -22,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "task-tracker",
+            "prefix": "app",
             "style": "kebab-case"
           }
         ]
