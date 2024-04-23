@@ -1,0 +1,9 @@
+{
+  "name": "shared-web",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/web/src",
+  "prefix": "task-tracker",
+  "tags": ["scope:frontend"],
+  "projectType": "library",
+  "targets": {}
+}

@@ -1,0 +1,43 @@
+<form class="flex flex-col gap-3" [formGroup]="loginForm">
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      formControlName="email"
+      autocomplete
+      type="email"
+      placeholder="Type your email"
+      data-test-id="input-email"
+    />
+    @if (emailControl.hasError('required')) {
+    <mat-error data-test-id="input-error" data-test-value="required"
+      >Field required!</mat-error
+    >
+    } @else if (emailControl.hasError('email')) {
+    <mat-error data-test-id="input-error" data-test-value="invalidEmail"
+      >Invalid email!</mat-error
+    >
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      formControlName="password"
+      autocomplete
+      type="password"
+      placeholder="Enter password"
+      data-test-id="input-password"
+    />
+    @if (passwordControl.hasError('required')) {
+    <mat-error data-test-id="input-error" data-test-value="required"
+      >Field required!</mat-error
+    >
+    } @else if (passwordControl.hasError('minlength')) {
+    <mat-error data-test-id="input-error" data-test-value="minlength"
+      >Password too short!</mat-error
+    >
+    }
+  </mat-form-field>
+</form>

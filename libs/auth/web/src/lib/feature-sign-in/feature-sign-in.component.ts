@@ -3,13 +3,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBar } from '@angular/material/progress-bar';
-import { AwSignInFormComponent } from '../ui/sign-in-form/sign-in-form.component';
+import { UiSignInFormComponent } from '../ui/sign-in-form/ui-sign-in-form.component';
 
 @Component({
   selector: 'auth-feature-sign-in',
   standalone: true,
   imports: [
-    AwSignInFormComponent,
+    UiSignInFormComponent,
     MatButtonModule,
     MatCardModule,
     MatProgressBar,
@@ -18,4 +18,4 @@ import { AwSignInFormComponent } from '../ui/sign-in-form/sign-in-form.component
   templateUrl: './feature-sign-in.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AwFeatureSignInComponent {}
+export class FeatureSignInComponent {}
