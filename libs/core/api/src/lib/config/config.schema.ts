@@ -6,6 +6,7 @@ export const configSchema = Joi.object<IConfig>({
   API_PORT: Joi.number().required(),
   API_PREFIX: Joi.string().required(),
   API_CORS: Joi.boolean().required(),
+  API_COOKIES_SECRET: Joi.string().required(),
 
   // database
   DATABASE_PATH: Joi.string().required(),

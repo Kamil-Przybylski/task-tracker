@@ -10,13 +10,16 @@
       data-test-id="input-email"
     />
     @if (emailControl.hasError('required')) {
-    <mat-error data-test-id="input-error" data-test-value="required"
-      >Field required!</mat-error
-    >
+    <mat-error data-test-id="input-email-required" data-test-type="input-error">
+      Field required!
+    </mat-error>
     } @else if (emailControl.hasError('email')) {
-    <mat-error data-test-id="input-error" data-test-value="invalidEmail"
-      >Invalid email!</mat-error
+    <mat-error
+      data-test-id="input-email-invalidEmail"
+      data-test-type="input-error"
     >
+      Invalid email!
+    </mat-error>
     }
   </mat-form-field>
 
@@ -31,13 +34,19 @@
       data-test-id="input-password"
     />
     @if (passwordControl.hasError('required')) {
-    <mat-error data-test-id="input-error" data-test-value="required"
-      >Field required!</mat-error
+    <mat-error
+      data-test-id="input-password-required"
+      data-test-type="input-error"
     >
+      Field required!
+    </mat-error>
     } @else if (passwordControl.hasError('minlength')) {
-    <mat-error data-test-id="input-error" data-test-value="minlength"
-      >Password too short!</mat-error
+    <mat-error
+      data-test-id="input-password-minlength"
+      data-test-type="input-error"
     >
+      Password too short!
+    </mat-error>
     }
   </mat-form-field>
 </form>

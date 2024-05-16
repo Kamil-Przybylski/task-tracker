@@ -1,0 +1,100 @@
+<form class="flex flex-col gap-3" [formGroup]="loginForm">
+  <mat-form-field appearance="outline">
+    <mat-label>Username</mat-label>
+    <input
+      matInput
+      formControlName="username"
+      autocomplete
+      type="text"
+      placeholder="Type your username"
+      data-test-id="input-username"
+    />
+    @if (usernameControl.hasError('required')) {
+    <mat-error
+      data-test-id="input-username-required"
+      data-test-type="input-error"
+    >
+      Field required!</mat-error
+    >
+    } @else if (usernameControl.hasError('minlength')) {
+    <mat-error
+      data-test-id="input-username-minlength"
+      data-test-type="input-error"
+    >
+      Name too short!
+    </mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      formControlName="email"
+      autocomplete
+      type="email"
+      placeholder="Type your email"
+      data-test-id="input-email"
+    />
+    @if (emailControl.hasError('required')) {
+    <mat-error data-test-id="input-email-required" data-test-type="input-error">
+      Field required!
+    </mat-error>
+    } @else if (emailControl.hasError('email')) {
+    <mat-error
+      data-test-id="input-email-invalidEmail"
+      data-test-type="input-error"
+    >
+      Invalid email!
+    </mat-error>
+    }
+  </mat-form-field>
+
+  <ng-container formGroupName="passwords">
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        autocomplete
+        type="password"
+        placeholder="Enter password"
+        data-test-id="input-password"
+      />
+      @if (passwordControl.hasError('required')) {
+      <mat-error
+        data-test-id="input-password-required"
+        data-test-type="input-error"
+      >
+        Field required!
+      </mat-error>
+      } @else if (passwordControl.hasError('minlength')) {
+      <mat-error
+        data-test-id="input-password-minlength"
+        data-test-type="input-error"
+      >
+        Password too short!
+      </mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Repeat password</mat-label>
+      <input
+        matInput
+        formControlName="repeatPassword"
+        autocomplete
+        type="password"
+        placeholder="Repeat your password"
+        data-test-id="input-repeatPassword"
+      />
+      @if (repeatPasswordControl.hasError('notEqual')) {
+      <mat-error
+        data-test-id="input-repeatPassword-notEqual"
+        data-test-type="input-error"
+      >
+        Passwords are not equal!
+      </mat-error>
+      }
+    </mat-form-field>
+  </ng-container>
+</form>

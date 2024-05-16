@@ -5,9 +5,10 @@
   </mat-card-header>
   <mat-card-content>
     <div class="my-5">
-      <auth-ui-sign-in-form
+      {{ errorMessage() }}
+      <auth-ui-sign-up-form
         #formRef
-        data-test-id="sign-in-form"
+        data-test-id="sign-up-form"
         (bySubmit)="handleSubmit($event)"
       />
     </div>
@@ -25,11 +26,11 @@
     </button>
     <button
       mat-button
-      data-test-id="button-sign-up"
-      routerLink="/auth/sing-up"
+      data-test-id="button-sign-in"
+      routerLink="/auth/sing-in"
       [disabled]="isPending()"
     >
-      Sign up
+      Sign in
     </button>
   </mat-card-actions>
   <mat-card-footer>

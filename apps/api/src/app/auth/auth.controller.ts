@@ -18,10 +18,13 @@ import {
   Get,
   Param,
   Post,
+  Res,
   UnauthorizedException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { addDays } from 'date-fns';
+import { FastifyReply } from 'fastify';
 
 @Controller(AuthRoutesEnum.AUTH)
 @UseInterceptors(ClassSerializerInterceptor)
@@ -35,9 +38,17 @@ export class AuthenticationController {
   }
 
   @Post(AuthRoutesEnum.SING_IN)
-  public async singIn(@Body() signInDto: SignInReqDto): Promise<SignInResDto> {
+  public async singIn(
+    @Body() signInDto: SignInReqDto,
+    @Res({ passthrough: true }) response: FastifyReply,
+  ): Promise<void> {
     const payload = await this.authService.signIn(signInDto);
-    return new SignInResDto(payload);
+    response.setCookie('accessToken', payload.accessToken, {
+      httpOnly: true,
+      path: '/',
+      expires: addDays(new Date(), 10),
+    });
+    response.send(new SignInResDto(payload));
   }
 
   @Post(AuthRoutesEnum.REFRESH_TOKEN)

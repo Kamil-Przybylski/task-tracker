@@ -13,7 +13,7 @@
         "outputPath": "dist/apps/task-tracker",
         "index": "apps/task-tracker/src/index.html",
         "browser": "apps/task-tracker/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": ["apps/task-tracker/src/polyfills.ts"],
         "tsConfig": "apps/task-tracker/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -43,6 +43,12 @@
           "outputHashing": "all"
         },
         "development": {
+          "fileReplacements": [
+            {
+              "replace": "apps/task-tracker/src/environments/environment.ts",
+              "with": "apps/task-tracker/src/environments/environment.development.ts"
+            }
+          ],
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true

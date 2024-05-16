@@ -1,13 +1,12 @@
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { JsonPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  EventEmitter,
-  Output,
+  booleanAttribute,
   effect,
   inject,
   input,
+  output,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -17,28 +16,30 @@ import {
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ISignInFormPayload } from '../../models/sign-in-form.models';
+import { ISignInFormPayload } from '../../models';
 
 @Component({
   selector: 'auth-ui-sign-in-form',
   standalone: true,
-  imports: [JsonPipe, ReactiveFormsModule, MatInputModule, MatFormFieldModule],
+  imports: [ReactiveFormsModule, MatInputModule, MatFormFieldModule],
   templateUrl: './ui-sign-in-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UiSignInFormComponent {
   readonly #fb = inject(NonNullableFormBuilder);
+  readonly #cd = inject(ChangeDetectorRef);
 
   readonly disabled = input<boolean, boolean | string>(false, {
-    transform: coerceBooleanProperty,
+    transform: booleanAttribute,
   });
-
-  @Output()
-  readonly bySubmit = new EventEmitter<ISignInFormPayload>();
+  readonly bySubmit = output<ISignInFormPayload>();
 
   readonly loginForm = this.#fb.group({
-    email: this.#fb.control('', [Validators.required, Validators.email]),
-    password: this.#fb.control('', [
+    email: this.#fb.control('kamil@test.pl', [
+      Validators.required,
+      Validators.email,
+    ]),
+    password: this.#fb.control('test', [
       Validators.required,
       Validators.minLength(4),
     ]),
@@ -66,6 +67,7 @@ export class UiSignInFormComponent {
       this.bySubmit.emit(payload);
     } else {
       this.loginForm.markAllAsTouched();
+      this.#cd.detectChanges();
     }
   }
 }

@@ -3,6 +3,7 @@ export interface IConfig {
   API_PORT: number;
   API_PREFIX: string;
   API_CORS: boolean;
+  API_COOKIES_SECRET: string;
 
   // database
   DATABASE_PATH: string;
