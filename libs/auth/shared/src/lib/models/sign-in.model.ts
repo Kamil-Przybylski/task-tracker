@@ -1,5 +1,4 @@
-import { JwtToken } from '@libs/shared';
-import { IUser } from './user.model';
+import { UserId } from '@libs/shared';
 
 export interface ISignInReq {
   email: string;
@@ -7,7 +6,7 @@ export interface ISignInReq {
 }
 
 export interface ISignInRes {
-  user: IUser;
-  accessToken: JwtToken;
-  refreshToken: JwtToken;
+  userId: UserId;
+  accessTokenExp: number;
+  refreshTokenExp: number;
 }

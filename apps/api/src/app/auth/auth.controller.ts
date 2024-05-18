@@ -1,6 +1,5 @@
 import {
   AuthenticationService,
-  RefreshTokenReqDto,
   RefreshTokenResDto,
   SignInReqDto,
   SignInResDto,
@@ -9,8 +8,8 @@ import {
 } from '@libs/auth-api';
 import { AuthRoutesEnum, AuthRoutesParamsEnum } from '@libs/auth-shared';
 import { UserEntity } from '@libs/core-api';
-import { UserId } from '@libs/shared';
-import { GetUser, JwtRefreshGuard } from '@libs/shared-api';
+import { JwtToken, UserId } from '@libs/shared';
+import { CookiesEnum, GetUser, JwtRefreshGuard } from '@libs/shared-api';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -18,13 +17,13 @@ import {
   Get,
   Param,
   Post,
+  Req,
   Res,
   UnauthorizedException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { addDays } from 'date-fns';
-import { FastifyReply } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 
 @Controller(AuthRoutesEnum.AUTH)
 @UseInterceptors(ClassSerializerInterceptor)
@@ -42,27 +41,37 @@ export class AuthenticationController {
     @Body() signInDto: SignInReqDto,
     @Res({ passthrough: true }) response: FastifyReply,
   ): Promise<void> {
-    const payload = await this.authService.signIn(signInDto);
-    response.setCookie('accessToken', payload.accessToken, {
+    const { tokens, res } = await this.authService.signIn(signInDto);
+    response.setCookie(CookiesEnum.ACCESS_TOKEN, tokens.access, {
       httpOnly: true,
       path: '/',
-      expires: addDays(new Date(), 10),
+      expires: new Date(res.accessTokenExp),
     });
-    response.send(new SignInResDto(payload));
+    response.setCookie(CookiesEnum.REFRESH_TOKEN, tokens.refresh, {
+      httpOnly: true,
+      path: '/',
+      expires: new Date(res.refreshTokenExp),
+    });
+    response.send(new SignInResDto(res));
   }
 
-  @Post(AuthRoutesEnum.REFRESH_TOKEN)
+  @Get(AuthRoutesEnum.REFRESH_TOKEN)
   @UseGuards(JwtRefreshGuard)
   public async getRefreshToken(
     @GetUser() user: UserEntity,
-    @Body() refreshTokenDto: RefreshTokenReqDto,
-  ): Promise<RefreshTokenResDto> {
-    if (!refreshTokenDto) throw new UnauthorizedException();
-    const payload = await this.authService.getRefreshToken(
-      user,
-      refreshTokenDto.refreshToken,
-    );
-    return new RefreshTokenResDto(payload);
+    @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
+  ): Promise<void> {
+    const refreshToken = request.cookies[CookiesEnum.REFRESH_TOKEN] as JwtToken;
+    if (!refreshToken) throw new UnauthorizedException();
+    const payload = await this.authService.getRefreshToken(user, refreshToken);
+
+    response.setCookie(CookiesEnum.ACCESS_TOKEN, payload.accessToken, {
+      httpOnly: true,
+      path: '/',
+      expires: new Date(payload.accessTokenExp),
+    });
+    response.send(new RefreshTokenResDto(payload.accessTokenExp));
   }
 
   @Get(`${AuthRoutesEnum.LOGOUT}/:${AuthRoutesParamsEnum.USER_ID}`)

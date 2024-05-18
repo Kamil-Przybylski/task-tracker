@@ -1,14 +1,17 @@
-import {
-  IRefreshTokenRes,
-  ISignInReq,
-  ISignInRes,
-  ISignUpReq,
-  IUser,
-} from '@libs/auth-shared';
+import { ISignInReq, ISignInRes, ISignUpReq, IUser } from '@libs/auth-shared';
 import { UserEntity, UserRepository } from '@libs/core-api';
 import { JwtToken, UserId } from '@libs/shared';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { TokenService } from './token.service';
+
+interface ISignInPayload {
+  tokens: { access: JwtToken; refresh: JwtToken };
+  res: ISignInRes;
+}
+interface IRefreshTokenPayload {
+  accessToken: JwtToken;
+  accessTokenExp: number;
+}
 
 @Injectable()
 export class AuthenticationService {
@@ -21,22 +24,31 @@ export class AuthenticationService {
     return this.userRepository.createOne(signUpDto);
   }
 
-  public async signIn(signInDto: ISignInReq): Promise<ISignInRes> {
+  public async signIn(signInDto: ISignInReq): Promise<ISignInPayload> {
     const user = await this.userRepository.findOneByCredentials(signInDto);
 
-    const accessToken = await this.tokenService.getTokenPayload(
+    const accessTokenObj = await this.tokenService.getTokenPayload(
       user.id,
       'access',
     );
-    const refreshToken = await this.tokenService.getTokenPayload(
+    const refreshTokenObj = await this.tokenService.getTokenPayload(
       user.id,
       'refresh',
     );
 
-    const hashedRefreshToken = await this.tokenService.hashToken(refreshToken);
+    const hashedRefreshToken = await this.tokenService.hashToken(
+      refreshTokenObj.token,
+    );
     await this.userRepository.updateOne(user.id, { hashedRefreshToken });
 
-    return { accessToken, refreshToken, user };
+    return {
+      tokens: { access: accessTokenObj.token, refresh: refreshTokenObj.token },
+      res: {
+        userId: user.id,
+        accessTokenExp: accessTokenObj.exp,
+        refreshTokenExp: refreshTokenObj.exp,
+      },
+    };
   }
 
   public async logout(userId: UserId): Promise<unknown> {
@@ -47,7 +59,7 @@ export class AuthenticationService {
   public async getRefreshToken(
     currentUser: IUser,
     refreshToken: JwtToken,
-  ): Promise<IRefreshTokenRes> {
+  ): Promise<IRefreshTokenPayload> {
     const user = await this.userRepository.findOne({
       where: { id: currentUser.id },
       isLoggedIn: true,
@@ -55,9 +67,10 @@ export class AuthenticationService {
     if (!user) throw new UnauthorizedException();
     await this.tokenService.validToken(refreshToken, user?.hashedRefreshToken);
 
-    const token = await this.tokenService.getTokenPayload(user.id, 'access');
+    const tokenObj = await this.tokenService.getTokenPayload(user.id, 'access');
     return {
-      accessToken: token,
+      accessToken: tokenObj.token,
+      accessTokenExp: tokenObj.exp,
     };
   }
 }

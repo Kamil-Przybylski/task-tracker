@@ -16,7 +16,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ISignUpFormPayload } from '../../models';
-import { passwordConfirming } from '../../utils/form-validators';
+import { passwordConfirming } from '../../utils/password-validators';
 
 @Component({
   selector: 'auth-ui-sign-up-form',

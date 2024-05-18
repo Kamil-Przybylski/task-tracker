@@ -1,3 +1,5 @@
 export interface ILocalStorage {
-  tokenExpiresAt: string;
+  userId: string;
+  accessTokenExpiresAt: string;
+  refreshTokenExpiresAt: string;
 }

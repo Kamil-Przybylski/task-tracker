@@ -8,6 +8,7 @@
       <auth-ui-sign-in-form
         #formRef
         data-test-id="sign-in-form"
+        [disabled]="isPending()"
         (bySubmit)="handleSubmit($event)"
       />
     </div>
@@ -31,6 +32,8 @@
     >
       Sign up
     </button>
+    <button mat-button (click)="test()">test</button>
+    <button mat-button (click)="logout()">logout</button>
   </mat-card-actions>
   <mat-card-footer>
     <div data-test-id="progress-bar" [class.invisible]="!isPending()">

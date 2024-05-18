@@ -1,16 +1,9 @@
-import { IRefreshTokenReq, IRefreshTokenRes } from '@libs/auth-shared';
-import { JwtToken } from '@libs/shared';
-import { IsString } from 'class-validator';
-
-export class RefreshTokenReqDto implements IRefreshTokenReq {
-  @IsString()
-  refreshToken!: JwtToken;
-}
+import { IRefreshTokenRes } from '@libs/auth-shared';
 
 export class RefreshTokenResDto implements IRefreshTokenRes {
-  accessToken!: JwtToken;
+  accessTokenExp!: number;
 
-  constructor(payload: IRefreshTokenRes) {
-    Object.assign(this, payload);
+  constructor(accessTokenExp: number) {
+    this.accessTokenExp = accessTokenExp;
   }
 }

@@ -1,11 +1,13 @@
+import {} from '@fastify/cookie';
 import { IUser } from '@libs/auth-shared';
 import { IConfig, UserRepository } from '@libs/core-api';
 import { UserId } from '@libs/shared';
-import { AuthStrategyEnum } from '@libs/shared-api';
+import { AuthStrategyEnum, CookiesEnum } from '@libs/shared-api';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { FastifyRequest } from 'fastify';
+import { Strategy } from 'passport-jwt';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(
@@ -17,7 +19,8 @@ export class JwtRefreshStrategy extends PassportStrategy(
     cs: ConfigService<IConfig>,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromBodyField('refreshToken'),
+      jwtFromRequest: (req: FastifyRequest) =>
+        req.cookies[CookiesEnum.REFRESH_TOKEN],
       ignoreExpiration: false,
       secretOrKey: cs.get('AUTH_SECRET'),
     });

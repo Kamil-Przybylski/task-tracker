@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
   AuthRoutesEnum,
-  IRefreshTokenReq,
   IRefreshTokenRes,
   ISignInReq,
   ISignInRes,
@@ -10,7 +9,8 @@ import {
   ISignUpRes,
 } from '@libs/auth-shared';
 import { APP_CONFIG } from '@libs/core-web';
-import { Observable } from 'rxjs';
+import { UserId } from '@libs/shared';
+import { Observable, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthApiService {
@@ -19,8 +19,6 @@ export class AuthApiService {
   readonly #url = `${this.#config.apiUrl}/${AuthRoutesEnum.AUTH}`;
 
   signUp(payload: ISignUpReq): Observable<ISignUpRes> {
-    console.log(555, this.#url);
-
     return this.#http.post<ISignUpRes>(
       `${this.#url}/${AuthRoutesEnum.SING_UP}`,
       payload,
@@ -34,24 +32,20 @@ export class AuthApiService {
     );
   }
 
-  logout(param: number | null): Observable<unknown> {
-    if (!param) throw new Error('No userId provided!');
+  logout(userId: UserId | null): Observable<unknown> {
+    if (!userId) return of(null);
     return this.#http.get<unknown>(
-      `${this.#url}/${AuthRoutesEnum.LOGOUT}/${param}`,
+      `${this.#url}/${AuthRoutesEnum.LOGOUT}/${userId}`,
     );
   }
 
-  getRefreshToken(payload: IRefreshTokenReq): Observable<IRefreshTokenRes> {
-    return this.#http.post<IRefreshTokenRes>(
+  getRefreshToken(): Observable<IRefreshTokenRes> {
+    return this.#http.get<IRefreshTokenRes>(
       `${this.#url}/${AuthRoutesEnum.REFRESH_TOKEN}`,
-      payload,
     );
   }
 
-  isAuthPath(url: string) {
-    const urlFragments = url.split('/');
-    return [AuthRoutesEnum.AUTH].some((fragment) =>
-      urlFragments.includes(fragment),
-    );
+  test() {
+    return this.#http.get(`${this.#config.apiUrl}`);
   }
 }

@@ -1,8 +1,6 @@
-import { ISignInReq, ISignInRes, IUser } from '@libs/auth-shared';
-import { JwtToken } from '@libs/shared';
-import { Type } from 'class-transformer';
+import { ISignInReq, ISignInRes } from '@libs/auth-shared';
+import { UserId } from '@libs/shared';
 import { IsString, MinLength } from 'class-validator';
-import { UserResDto } from './user.dto';
 
 export class SignInReqDto implements ISignInReq {
   @IsString()
@@ -15,13 +13,13 @@ export class SignInReqDto implements ISignInReq {
 }
 
 export class SignInResDto implements ISignInRes {
-  @Type(() => UserResDto)
-  user!: IUser;
-
-  accessToken!: JwtToken;
-  refreshToken!: JwtToken;
+  userId: UserId;
+  accessTokenExp: number;
+  refreshTokenExp: number;
 
   constructor(payload: ISignInRes) {
-    Object.assign(this, payload);
+    this.userId = payload.userId;
+    this.accessTokenExp = payload.accessTokenExp;
+    this.refreshTokenExp = payload.refreshTokenExp;
   }
 }
