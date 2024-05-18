@@ -1,0 +1,38 @@
+import {} from '@fastify/cookie';
+import { IUser } from '@libs/core-shared';
+import { UserId } from '@libs/shared';
+import { AuthStrategyEnum, CookiesEnum } from '@libs/shared-api';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
+import { FastifyRequest } from 'fastify';
+import { Strategy } from 'passport-jwt';
+import { IConfig } from '../../config/config.model';
+import { UserRepository } from '../../database/repositories';
+
+@Injectable()
+export class JwtRefreshStrategy extends PassportStrategy(
+  Strategy,
+  AuthStrategyEnum.JWT_REFRESH,
+) {
+  constructor(
+    private readonly userRepository: UserRepository,
+    cs: ConfigService<IConfig>,
+  ) {
+    super({
+      jwtFromRequest: (req: FastifyRequest) =>
+        req.cookies[CookiesEnum.REFRESH_TOKEN],
+      ignoreExpiration: false,
+      secretOrKey: cs.get('AUTH_SECRET'),
+    });
+  }
+
+  async validate(payload: { sub: UserId }): Promise<IUser> {
+    const user = await this.userRepository.findOne({
+      where: { id: payload.sub },
+      isLoggedIn: true,
+    });
+    if (!user) throw new UnauthorizedException();
+    return user;
+  }
+}

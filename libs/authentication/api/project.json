@@ -1,0 +1,8 @@
+{
+  "name": "authentication-api",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/authentication/api/src",
+  "projectType": "library",
+  "targets": {},
+  "tags": ["scope:backend"]
+}

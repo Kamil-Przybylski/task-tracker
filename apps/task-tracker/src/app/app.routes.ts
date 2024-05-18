@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { AuthRoutesEnum } from '@libs/auth-shared';
-import { authGuardFunction, authenticationGuardFunction } from '@libs/auth-web';
+import { AuthRoutesEnum } from '@libs/core-shared';
+import { authGuardFunction, authenticationGuardFunction } from '@libs/core-web';
 
 export const appRoutes: Route[] = [
   {

@@ -1,5 +1,4 @@
-import { UserResDto } from '@libs/auth-api';
-import { UserEntity } from '@libs/core-api';
+import { UserEntity, UserResDto } from '@libs/core-api';
 import { GetUser, JwtAuthGuard } from '@libs/shared-api';
 import {
   ClassSerializerInterceptor,

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FeatureSignUpComponent } from '@libs/auth-web';
+import { FeatureSignUpComponent } from '@libs/authentication-web';
 
 @Component({
   selector: 'app-sign-up',

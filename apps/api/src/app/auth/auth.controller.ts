@@ -1,22 +1,12 @@
-import {
-  AuthenticationService,
-  RefreshTokenResDto,
-  SignInReqDto,
-  SignInResDto,
-  SingUpDto,
-  UserResDto,
-} from '@libs/auth-api';
-import { AuthRoutesEnum, AuthRoutesParamsEnum } from '@libs/auth-shared';
-import { UserEntity } from '@libs/core-api';
+import { AuthService, RefreshTokenResDto, UserEntity } from '@libs/core-api';
+import { AuthRoutesEnum, AuthRoutesParamsEnum } from '@libs/core-shared';
 import { JwtToken, UserId } from '@libs/shared';
 import { CookiesEnum, GetUser, JwtRefreshGuard } from '@libs/shared-api';
 import {
-  Body,
   ClassSerializerInterceptor,
   Controller,
   Get,
   Param,
-  Post,
   Req,
   Res,
   UnauthorizedException,
@@ -27,33 +17,8 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 
 @Controller(AuthRoutesEnum.AUTH)
 @UseInterceptors(ClassSerializerInterceptor)
-export class AuthenticationController {
-  constructor(private readonly authService: AuthenticationService) {}
-
-  @Post(AuthRoutesEnum.SING_UP)
-  public async singUp(@Body() signUpDto: SingUpDto): Promise<UserResDto> {
-    const user = await this.authService.signUp(signUpDto);
-    return new UserResDto(user);
-  }
-
-  @Post(AuthRoutesEnum.SING_IN)
-  public async singIn(
-    @Body() signInDto: SignInReqDto,
-    @Res({ passthrough: true }) response: FastifyReply,
-  ): Promise<void> {
-    const { tokens, res } = await this.authService.signIn(signInDto);
-    response.setCookie(CookiesEnum.ACCESS_TOKEN, tokens.access, {
-      httpOnly: true,
-      path: '/',
-      expires: new Date(res.accessTokenExp),
-    });
-    response.setCookie(CookiesEnum.REFRESH_TOKEN, tokens.refresh, {
-      httpOnly: true,
-      path: '/',
-      expires: new Date(res.refreshTokenExp),
-    });
-    response.send(new SignInResDto(res));
-  }
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
 
   @Get(AuthRoutesEnum.REFRESH_TOKEN)
   @UseGuards(JwtRefreshGuard)

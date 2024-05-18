@@ -1,0 +1,9 @@
+{
+  "name": "authentication-web",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/authentication/web/src",
+  "prefix": "task-tracker",
+  "tags": ["scope:frontend"],
+  "projectType": "library",
+  "targets": {}
+}
