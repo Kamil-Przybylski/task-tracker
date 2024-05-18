@@ -77,8 +77,6 @@ describe('UiSignInFormComponent', () => {
     component.submit();
     fixture.detectChanges();
 
-    console.log(666, component.emailControl.errors);
-
     expect(ngMocks.find('[data-test-id="input-email-required"]')).toBeDefined();
     expect(
       ngMocks.find('[data-test-id="input-password-required"]'),

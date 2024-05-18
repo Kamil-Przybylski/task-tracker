@@ -25,8 +25,6 @@ export class AuthApiService {
   }
 
   signIn(payload: ISignInReq): Observable<ISignInRes> {
-    console.log(666, this.#url, AuthenticationRoutesEnum.SING_IN);
-
     return this.#http.post<ISignInRes>(
       `${this.#url}/${AuthenticationRoutesEnum.SING_IN}`,
       payload,
