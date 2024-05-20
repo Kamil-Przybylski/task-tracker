@@ -5,10 +5,9 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { isBefore } from 'date-fns';
+import { isAfter } from 'date-fns';
 import { Observable, catchError, concatMap, throwError } from 'rxjs';
-import { AuthStore } from '../data-access/auth.store';
-import { isAuthPath } from '../utils/auth-url.utils';
+import { AuthStore } from '../../data-access/auth.store';
 
 export const authorizationInterceptor = (
   request: HttpRequest<unknown>,
@@ -22,12 +21,11 @@ export const authorizationInterceptor = (
   });
   return next(request).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (
-        !isAuthPath(request.url) &&
-        error?.status === 401 &&
-        refreshExp &&
-        isBefore(new Date(), refreshExp)
-      ) {
+      if (error?.status === 401) {
+        if (!refreshExp || (refreshExp && isAfter(new Date(), refreshExp))) {
+          authStore.logout();
+          return next(request);
+        }
         return authStore.refreshToken().pipe(concatMap(() => next(request)));
       }
       return throwError(() => error);

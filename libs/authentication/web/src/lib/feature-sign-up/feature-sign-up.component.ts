@@ -9,7 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { RouterModule } from '@angular/router';
-import { AuthenticationStore } from '../data-access/store/authentication.store';
+import { AuthenticationStore } from '../data-access/authentication.store';
 import { ISignUpFormPayload } from '../models';
 import { UiSignUpFormComponent } from '../ui/sign-up-form/ui-sign-up-form.component';
 

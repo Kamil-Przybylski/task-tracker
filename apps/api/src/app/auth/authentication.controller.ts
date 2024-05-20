@@ -6,7 +6,7 @@ import {
 } from '@libs/authentication-api';
 import { AuthenticationRoutesEnum } from '@libs/authentication-shared';
 import { UserResDto } from '@libs/core-api';
-import { AuthRoutesEnum } from '@libs/core-shared';
+import { AuthRoutesEnum, IUser } from '@libs/core-shared';
 import { CookiesEnum } from '@libs/shared-api';
 import {
   Body,
@@ -24,7 +24,7 @@ export class AuthenticationController {
   constructor(private readonly authService: AuthenticationService) {}
 
   @Post(AuthenticationRoutesEnum.SING_UP)
-  public async singUp(@Body() signUpDto: SingUpDto): Promise<UserResDto> {
+  public async singUp(@Body() signUpDto: SingUpDto): Promise<IUser> {
     const user = await this.authService.signUp(signUpDto);
     return new UserResDto(user);
   }

@@ -7,7 +7,7 @@ import { ISignInFormPayload } from '../models';
 import { UiSignInFormComponent } from '../ui/sign-in-form/ui-sign-in-form.component';
 import { FeatureSignInComponent } from './feature-sign-in.component';
 
-jest.mock('../data-access/store/authentication.store');
+jest.mock('../data-access/authentication.store');
 
 describe('FeatureSignInComponent', () => {
   const SIGN_UP_PATH = 'auth/sing-up';

@@ -1,4 +1,5 @@
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserId } from '@libs/shared';
 import { LocalStorage } from '@libs/shared-web';
 import { tapResponse } from '@ngrx/operators';
@@ -12,18 +13,15 @@ import {
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { isBefore } from 'date-fns';
 import { exhaustMap, pipe, tap } from 'rxjs';
-import { AuthService } from './auth-api.service';
+import { AUTH_REDIRECT_PATH_TOKEN } from '../feature-auth/auth.token';
+import { ILoginPayload } from '../models/login.model';
+import { isAuthPath } from '../utils/auth-url.utils';
+import { AuthApiService } from './auth-api.service';
 
 interface IState {
   userId: UserId | null;
   accessTokenExpiresAt: number | null;
   refreshTokenExpiresAt: number | null;
-}
-
-interface ILoginPayload {
-  userId: UserId;
-  accessTokenExp: number;
-  refreshTokenExp: number;
 }
 
 const initialState: IState = {
@@ -32,17 +30,25 @@ const initialState: IState = {
   refreshTokenExpiresAt: null,
 };
 
-const logoutLocalStorage = () => {
-  LocalStorage.removeItem('userId');
-  LocalStorage.removeItem('accessTokenExpiresAt');
-  LocalStorage.removeItem('refreshTokenExpiresAt');
-};
-
 export const AuthStore = signalStore(
   { providedIn: 'root' },
   withState<IState>(initialState),
   withMethods((store) => {
-    const authService = inject(AuthService);
+    const authService = inject(AuthApiService);
+    const router = inject(Router);
+    const redirect = inject(AUTH_REDIRECT_PATH_TOKEN);
+
+    const handleLogout = () => {
+      LocalStorage.removeItem('userId');
+      LocalStorage.removeItem('accessTokenExpiresAt');
+      LocalStorage.removeItem('refreshTokenExpiresAt');
+      patchState(store, initialState);
+
+      if (isAuthPath(router.url)) return;
+      router.navigate(redirect);
+      window.location.reload();
+    };
+
     return {
       login(dto: ILoginPayload): void {
         LocalStorage.setItem('userId', `${dto.userId}`);
@@ -61,14 +67,8 @@ export const AuthStore = signalStore(
           exhaustMap(() =>
             authService.logout(store.userId()).pipe(
               tapResponse({
-                next: () => {
-                  logoutLocalStorage();
-                  patchState(store, initialState);
-                },
-                error: () => {
-                  logoutLocalStorage();
-                  patchState(store, initialState);
-                },
+                next: () => handleLogout(),
+                error: () => handleLogout(),
               }),
             ),
           ),
@@ -77,20 +77,16 @@ export const AuthStore = signalStore(
     };
   }),
   withMethods((store) => {
-    const authService = inject(AuthService);
+    const authService = inject(AuthApiService);
     return {
       refreshToken: () =>
         authService.getRefreshToken().pipe(
           tapResponse({
-            next: (dto) => {
+            next: (dto) =>
               patchState(store, {
                 accessTokenExpiresAt: dto.accessTokenExp,
-              });
-            },
-            error: () => {
-              store.logout();
-              patchState(store, initialState);
-            },
+              }),
+            error: () => store.logout(),
           }),
         ),
     };
@@ -101,13 +97,12 @@ export const AuthStore = signalStore(
       const refreshExp = +(LocalStorage.getItem('refreshTokenExpiresAt') ?? 0);
 
       if (userId && refreshExp && isBefore(new Date(), refreshExp)) {
-        store.refreshToken();
+        store.refreshToken().subscribe();
         patchState(store, {
           userId: userId,
           refreshTokenExpiresAt: refreshExp,
         });
       } else {
-        store.logout();
         patchState(store, initialState);
       }
     },

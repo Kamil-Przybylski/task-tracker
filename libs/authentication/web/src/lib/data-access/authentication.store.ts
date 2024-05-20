@@ -13,14 +13,14 @@ import { tapResponse } from '@ngrx/operators';
 import { signalStore, withMethods } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
-import { AuthApiService } from '../authentication-api.service';
+import { AuthenticationApiService } from './authentication-api.service';
 
 export const AuthenticationStore = signalStore(
   { providedIn: 'root' },
   withRequestStatus(),
   withMethods((store) => {
-    const authService = inject(AuthApiService);
-    const authorizationStore = inject(AuthStore);
+    const authService = inject(AuthenticationApiService);
+    const authStore = inject(AuthStore);
     const router = inject(Router);
 
     return {
@@ -51,8 +51,8 @@ export const AuthenticationStore = signalStore(
             authService.signIn(payload).pipe(
               tapResponse({
                 next: (dto) => {
-                  authorizationStore.login(dto);
-                  store.setPending();
+                  authStore.login(dto);
+                  store.setFulfilled();
                   router.navigate(['']);
                 },
                 error: (error: HttpErrorResponse) =>

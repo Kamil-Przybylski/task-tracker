@@ -7,7 +7,7 @@ import { ISignUpFormPayload } from '../models';
 import { UiSignUpFormComponent } from '../ui/sign-up-form/ui-sign-up-form.component';
 import { FeatureSignUpComponent } from './feature-sign-up.component';
 
-jest.mock('../data-access/store/authentication.store');
+jest.mock('../data-access/authentication.store');
 
 describe('FeatureSignUpComponent', () => {
   const SIGN_IN_PATH = 'auth/sing-in';
@@ -18,7 +18,6 @@ describe('FeatureSignUpComponent', () => {
       providers: [
         provideNoopAnimations(),
         provideRouter([
-          { path: '', component: FeatureSignUpComponent },
           { path: SIGN_IN_PATH, component: FeatureSignUpComponent },
         ]),
       ],
