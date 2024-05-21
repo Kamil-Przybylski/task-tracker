@@ -1,8 +1,8 @@
 {
-  "name": "auth-shared",
+  "name": "authentication-shared",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/auth/shared/src",
+  "sourceRoot": "libs/authentication/shared/src",
   "projectType": "library",
   "targets": {},
-  "tags": ["scope:shared"]
+  "tags": ["scope:shared", "domain:authentication"]
 }

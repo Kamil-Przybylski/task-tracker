@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/web/src",
   "prefix": "task-tracker",
-  "tags": ["scope:frontend"],
+  "tags": ["scope:frontend", "domain:shared"],
   "projectType": "library",
   "targets": {}
 }

@@ -4,5 +4,5 @@
   "sourceRoot": "libs/shared/shared/src",
   "projectType": "library",
   "targets": {},
-  "tags": ["scope:shared"]
+  "tags": ["scope:shared", "domain:shared"]
 }

@@ -19,21 +19,28 @@
               {
                 "sourceTag": "scope:frontend",
                 "onlyDependOnLibsWithTags": ["scope:frontend", "scope:shared"],
-                "bannedExternalImports": ["@nestjs/*", "@libs-nest/*"]
+                "bannedExternalImports": ["@nestjs/*"]
               },
               {
                 "sourceTag": "scope:backend",
                 "onlyDependOnLibsWithTags": ["scope:backend", "scope:shared"],
-                "bannedExternalImports": ["@angular/*", "@libs-ng/*"]
+                "bannedExternalImports": ["@angular/*"]
               },
               {
                 "sourceTag": "scope:shared",
                 "onlyDependOnLibsWithTags": ["scope:shared"],
-                "bannedExternalImports": [
-                  "@angular/*",
-                  "@nestjs/*",
-                  "@libs-ng/*",
-                  "@libs-nest/*"
+                "bannedExternalImports": ["@angular/*", "@nestjs/*"]
+              },
+              {
+                "sourceTag": "domain:core",
+                "onlyDependOnLibsWithTags": ["domain:core", "domain:shared"]
+              },
+              {
+                "sourceTag": "domain:authentication",
+                "onlyDependOnLibsWithTags": [
+                  "domain:authentication",
+                  "domain:shared",
+                  "domain:core"
                 ]
               }
             ]

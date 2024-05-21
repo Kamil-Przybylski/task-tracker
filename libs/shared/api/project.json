@@ -4,5 +4,5 @@
   "sourceRoot": "libs/shared/api/src",
   "projectType": "library",
   "targets": {},
-  "tags": ["scope:backend"]
+  "tags": ["scope:backend", "domain:shared"]
 }
