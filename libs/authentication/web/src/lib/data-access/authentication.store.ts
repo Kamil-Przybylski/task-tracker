@@ -7,7 +7,7 @@ import {
   ISignUpReq,
 } from '@libs/authentication-shared';
 import { AuthRoutesEnum } from '@libs/core-shared';
-import { AuthStore } from '@libs/core-web';
+import { AuthAccessService } from '@libs/core-web';
 import { withRequestStatus } from '@libs/shared-web';
 import { tapResponse } from '@ngrx/operators';
 import { signalStore, withMethods } from '@ngrx/signals';
@@ -19,8 +19,8 @@ export const AuthenticationStore = signalStore(
   { providedIn: 'root' },
   withRequestStatus(),
   withMethods((store) => {
-    const authService = inject(AuthenticationApiService);
-    const authStore = inject(AuthStore);
+    const authenticationService = inject(AuthenticationApiService);
+    const authService = inject(AuthAccessService);
     const router = inject(Router);
 
     return {
@@ -28,7 +28,7 @@ export const AuthenticationStore = signalStore(
         pipe(
           tap(() => store.setPending()),
           switchMap((payload) =>
-            authService.signUp(payload).pipe(
+            authenticationService.signUp(payload).pipe(
               tapResponse({
                 next: () => {
                   store.setFulfilled();
@@ -48,10 +48,10 @@ export const AuthenticationStore = signalStore(
         pipe(
           tap(() => store.setPending()),
           switchMap((payload) =>
-            authService.signIn(payload).pipe(
+            authenticationService.signIn(payload).pipe(
               tapResponse({
                 next: (dto) => {
-                  authStore.login(dto);
+                  authService.login(dto);
                   store.setFulfilled();
                   router.navigate(['']);
                 },

@@ -7,14 +7,12 @@ import {
   ISignUpReq,
 } from '@libs/authentication-shared';
 import { AuthRoutesEnum, IUser } from '@libs/core-shared';
-import { AuthStore } from '@libs/core-web';
+import { AuthAccessService } from '@libs/core-web';
 import { UserId } from '@libs/shared';
 import { TestUtils } from '@libs/shared-web';
 import { MockService } from 'ng-mocks';
 import { AuthenticationApiService } from './authentication-api.service';
 import { AuthenticationStore } from './authentication.store';
-
-jest.mock('@libs/core-web');
 
 describe('AuthenticationStore', () => {
   const setup = () => {
@@ -30,15 +28,19 @@ describe('AuthenticationStore', () => {
           provide: AuthenticationApiService,
           useValue: MockService(AuthenticationApiService),
         },
+        {
+          provide: AuthAccessService,
+          useValue: MockService(AuthAccessService),
+        },
         AuthenticationStore,
       ],
     });
     const store = TestBed.inject(AuthenticationStore);
     const apiServiceMock = TestBed.inject(AuthenticationApiService);
-    const authStoreMock = TestBed.inject(AuthStore);
+    const authAccessService = TestBed.inject(AuthAccessService);
     const router = TestBed.inject(Router);
 
-    return { store, apiServiceMock, authStoreMock, router };
+    return { store, apiServiceMock, authAccessService, router };
   };
 
   it('should create a store', () => {
@@ -116,7 +118,7 @@ describe('AuthenticationStore', () => {
 
   describe('signIn', () => {
     it('should handle sign in with success', fakeAsync(() => {
-      const { store, apiServiceMock, authStoreMock, router } = setup();
+      const { store, apiServiceMock, authAccessService, router } = setup();
       const payload: ISignInReq = {
         email: 'test@ema.il',
         password: 'pass',
@@ -130,7 +132,7 @@ describe('AuthenticationStore', () => {
       const signInSpy = jest
         .spyOn(apiServiceMock, 'signIn')
         .mockImplementation(TestUtils.implementationOfAsync(res));
-      const loginSpy = jest.spyOn(authStoreMock, 'login');
+      const loginSpy = jest.spyOn(authAccessService, 'login');
 
       expect(store.isPending()).toBe(false);
 

@@ -7,13 +7,13 @@ import { IRefreshTokenRes } from '@libs/core-shared';
 import { UserId } from '@libs/shared';
 import { LocalStorage } from '@libs/shared-web';
 import { of } from 'rxjs';
+import { APP_CONFIG } from '../../config';
 import { AUTH_REDIRECT_PATH_TOKEN } from '../feature-auth/auth.token';
 import { ILoginPayload } from '../models/login.model';
 import { AuthApiService } from './auth-api.service';
 import { AuthStore } from './auth.store';
 
 jest.mock('@libs/shared-web');
-jest.mock('../../config');
 Object.defineProperty(window, 'location', { writable: true });
 
 describe('AuthStore', () => {
@@ -29,6 +29,7 @@ describe('AuthStore', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
+        { provide: APP_CONFIG, useValue: { apiUrl: 'https://test.com' } },
         { provide: AUTH_REDIRECT_PATH_TOKEN, useValue: [''] },
         AuthStore,
       ],

@@ -9,10 +9,9 @@ import {
   ISignUpReq,
 } from '@libs/authentication-shared';
 import { IUser } from '@libs/core-shared';
+import { APP_CONFIG } from '@libs/core-web';
 import { UserId } from '@libs/shared';
 import { AuthenticationApiService } from './authentication-api.service';
-
-jest.mock('@libs/core-web');
 
 describe('AuthApiService', () => {
   let apiService: AuthenticationApiService;
@@ -21,7 +20,10 @@ describe('AuthApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [AuthenticationApiService],
+      providers: [
+        { provide: APP_CONFIG, useValue: { apiUrl: 'https://test.com' } },
+        AuthenticationApiService,
+      ],
     });
     apiService = TestBed.inject(AuthenticationApiService);
     httpController = TestBed.inject(HttpTestingController);
