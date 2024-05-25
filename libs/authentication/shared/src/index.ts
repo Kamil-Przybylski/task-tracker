@@ -1,2 +1,2 @@
 export * from './lib/authentication.routes';
-export * from './lib/models';
+export * from './lib/contracts';

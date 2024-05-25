@@ -1,12 +1,15 @@
+import { AuthenticationService } from '@libs/authentication-api';
 import {
-  AuthenticationService,
+  AuthenticationRoutesEnum,
   SignInReqDto,
   SignInResDto,
-  SingUpDto,
-} from '@libs/authentication-api';
-import { AuthenticationRoutesEnum } from '@libs/authentication-shared';
-import { UserResDto } from '@libs/core-api';
-import { AuthRoutesEnum, IUser } from '@libs/core-shared';
+  SignUpReqDto,
+  SignUpResDto,
+  signInReqSchema,
+  signUpReqSchema,
+} from '@libs/authentication-shared';
+import { ZodValidationPipe } from '@libs/core-api';
+import { AuthRoutesEnum } from '@libs/core-shared';
 import { CookiesEnum } from '@libs/shared-api';
 import {
   Body,
@@ -15,6 +18,7 @@ import {
   Post,
   Res,
   UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
 
@@ -24,12 +28,14 @@ export class AuthenticationController {
   constructor(private readonly authService: AuthenticationService) {}
 
   @Post(AuthenticationRoutesEnum.SING_UP)
-  public async singUp(@Body() signUpDto: SingUpDto): Promise<IUser> {
-    const user = await this.authService.signUp(signUpDto);
-    return new UserResDto(user);
+  @UsePipes(new ZodValidationPipe(signUpReqSchema))
+  public async singUp(@Body() signUpDto: SignUpReqDto): Promise<SignUpResDto> {
+    await this.authService.signUp(signUpDto);
+    return { status: 'created' };
   }
 
   @Post(AuthenticationRoutesEnum.SING_IN)
+  @UsePipes(new ZodValidationPipe(signInReqSchema))
   public async singIn(
     @Body() signInDto: SignInReqDto,
     @Res({ passthrough: true }) response: FastifyReply,
@@ -45,6 +51,6 @@ export class AuthenticationController {
       path: '/',
       expires: new Date(res.refreshTokenExp),
     });
-    response.send(new SignInResDto(res));
+    response.send(res satisfies SignInResDto);
   }
 }

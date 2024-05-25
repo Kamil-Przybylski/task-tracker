@@ -1,7 +1,7 @@
 import {
-  ISignInReq,
-  ISignInRes,
-  ISignUpReq,
+  SignInReqDto,
+  SignInResDto,
+  SignUpReqDto,
 } from '@libs/authentication-shared';
 import { TokenService, UserEntity, UserRepository } from '@libs/core-api';
 import { JwtToken } from '@libs/shared';
@@ -9,7 +9,7 @@ import { Injectable } from '@nestjs/common';
 
 interface ISignInPayload {
   tokens: { access: JwtToken; refresh: JwtToken };
-  res: ISignInRes;
+  res: SignInResDto;
 }
 
 @Injectable()
@@ -19,11 +19,11 @@ export class AuthenticationService {
     private readonly tokenService: TokenService,
   ) {}
 
-  public signUp(signUpDto: ISignUpReq): Promise<UserEntity> {
+  public signUp(signUpDto: SignUpReqDto): Promise<UserEntity> {
     return this.userRepository.createOne(signUpDto);
   }
 
-  public async signIn(signInDto: ISignInReq): Promise<ISignInPayload> {
+  public async signIn(signInDto: SignInReqDto): Promise<ISignInPayload> {
     const user = await this.userRepository.findOneByCredentials(signInDto);
 
     const accessTokenObj = await this.tokenService.getTokenPayload(

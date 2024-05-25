@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
   AuthenticationRoutesEnum,
-  ISignInReq,
-  ISignInRes,
-  ISignUpReq,
+  SignInReqDto,
+  SignInResDto,
+  SignUpReqDto,
 } from '@libs/authentication-shared';
-import { AuthRoutesEnum, IUser } from '@libs/core-shared';
+import { AuthRoutesEnum } from '@libs/core-shared';
 import { APP_CONFIG } from '@libs/core-web';
 import { Observable } from 'rxjs';
 
@@ -16,15 +16,15 @@ export class AuthenticationApiService {
   readonly #http = inject(HttpClient);
   readonly #url = `${this.#config.apiUrl}/${AuthRoutesEnum.AUTH}`;
 
-  signUp(payload: ISignUpReq): Observable<IUser> {
-    return this.#http.post<IUser>(
+  signUp(payload: SignUpReqDto): Observable<unknown> {
+    return this.#http.post(
       `${this.#url}/${AuthenticationRoutesEnum.SING_UP}`,
       payload,
     );
   }
 
-  signIn(payload: ISignInReq): Observable<ISignInRes> {
-    return this.#http.post<ISignInRes>(
+  signIn(payload: SignInReqDto): Observable<SignInResDto> {
+    return this.#http.post<SignInResDto>(
       `${this.#url}/${AuthenticationRoutesEnum.SING_IN}`,
       payload,
     );

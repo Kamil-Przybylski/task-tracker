@@ -4,9 +4,9 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  ISignInReq,
-  ISignInRes,
-  ISignUpReq,
+  SignInReqDto,
+  SignInResDto,
+  SignUpReqDto,
 } from '@libs/authentication-shared';
 import { IUser } from '@libs/core-shared';
 import { APP_CONFIG } from '@libs/core-web';
@@ -38,7 +38,7 @@ describe('AuthApiService', () => {
   });
 
   it('should correctly request signUp', waitForAsync(() => {
-    const payload: ISignUpReq = {
+    const payload: SignUpReqDto = {
       username: 'user',
       email: 'test@ema.il',
       password: 'pass',
@@ -61,11 +61,11 @@ describe('AuthApiService', () => {
   }));
 
   it('should correctly request signIn', waitForAsync(() => {
-    const payload: ISignInReq = {
+    const payload: SignInReqDto = {
       email: 'test@ema.il',
       password: 'pass',
     };
-    const res: ISignInRes = {
+    const res: SignInResDto = {
       userId: 1 as UserId,
       accessTokenExp: 0,
       refreshTokenExp: 0,

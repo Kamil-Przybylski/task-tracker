@@ -3,8 +3,8 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   AuthenticationRoutesEnum,
-  ISignInReq,
-  ISignUpReq,
+  SignInReqDto,
+  SignUpReqDto,
 } from '@libs/authentication-shared';
 import { AuthRoutesEnum } from '@libs/core-shared';
 import { AuthAccessService } from '@libs/core-web';
@@ -24,7 +24,7 @@ export const AuthenticationStore = signalStore(
     const router = inject(Router);
 
     return {
-      signUp: rxMethod<ISignUpReq>(
+      signUp: rxMethod<SignUpReqDto>(
         pipe(
           tap(() => store.setPending()),
           switchMap((payload) =>
@@ -44,7 +44,7 @@ export const AuthenticationStore = signalStore(
           ),
         ),
       ),
-      signIn: rxMethod<ISignInReq>(
+      signIn: rxMethod<SignInReqDto>(
         pipe(
           tap(() => store.setPending()),
           switchMap((payload) =>

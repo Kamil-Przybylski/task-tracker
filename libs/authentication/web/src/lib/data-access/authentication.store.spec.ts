@@ -2,9 +2,9 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 import {
   AuthenticationRoutesEnum,
-  ISignInReq,
-  ISignInRes,
-  ISignUpReq,
+  SignInReqDto,
+  SignInResDto,
+  SignUpReqDto,
 } from '@libs/authentication-shared';
 import { AuthRoutesEnum, IUser } from '@libs/core-shared';
 import { AuthAccessService } from '@libs/core-web';
@@ -51,7 +51,7 @@ describe('AuthenticationStore', () => {
   describe('signUp', () => {
     it('should handle sign up with success', fakeAsync(() => {
       const { store, apiServiceMock, router } = setup();
-      const payload: ISignUpReq = {
+      const payload: SignUpReqDto = {
         username: 'user',
         email: 'test@ema.il',
         password: 'pass',
@@ -85,7 +85,7 @@ describe('AuthenticationStore', () => {
 
     it('should handle error when sign up fails', fakeAsync(() => {
       const { store, apiServiceMock } = setup();
-      const payload: ISignUpReq = {
+      const payload: SignUpReqDto = {
         username: 'user',
         email: 'test@ema.il',
         password: 'pass',
@@ -119,11 +119,11 @@ describe('AuthenticationStore', () => {
   describe('signIn', () => {
     it('should handle sign in with success', fakeAsync(() => {
       const { store, apiServiceMock, authAccessService, router } = setup();
-      const payload: ISignInReq = {
+      const payload: SignInReqDto = {
         email: 'test@ema.il',
         password: 'pass',
       };
-      const res: ISignInRes = {
+      const res: SignInResDto = {
         userId: 1 as UserId,
         accessTokenExp: 0,
         refreshTokenExp: 0,
@@ -149,7 +149,7 @@ describe('AuthenticationStore', () => {
 
     it('should handle error when sign in fails', fakeAsync(() => {
       const { store, apiServiceMock } = setup();
-      const payload: ISignUpReq = {
+      const payload: SignUpReqDto = {
         username: 'user',
         email: 'test@ema.il',
         password: 'pass',
