@@ -2,6 +2,18 @@ const plugin = require('tailwindcss/plugin');
 
 const themePlugin = plugin(() => {}, {
   theme: {
+    screens: {
+      xs: '599px',
+      sm: '959px',
+      md: '1279px',
+      lg: '1919px',
+      xl: '1920px',
+    },
+    extend: {
+      transitionProperty: {
+        width: 'width',
+      },
+    },
     colors: {
       background: {
         50: 'var(--background-50)',

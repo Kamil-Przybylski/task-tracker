@@ -1,0 +1,48 @@
+<mat-toolbar class="fixed top-0 z-10" color="primary">
+  <button mat-icon-button aria-label="Menu icon" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <ng-content select="header" />
+</mat-toolbar>
+<mat-sidenav-container class="h-full" autosize>
+  <mat-sidenav
+    class="pt-14 xs:pt-16"
+    [ngClass]="{ '!w-[250px]': !isCollapsed() }"
+    [opened]="!isMobile()"
+    [mode]="isMobile() ? 'over' : 'side'"
+  >
+    <mat-nav-list class="h-full !flex flex-col">
+      @for(item of items(); track item) {
+      <a
+        mat-list-item
+        [routerLink]="item.link"
+        routerLinkActive="!bg-background-400"
+      >
+        <ng-container *ngTemplateOutlet="navItem; context: { item: item }" />
+      </a>
+      }
+      <div class="flex-grow"></div>
+      <mat-divider></mat-divider>
+      <a mat-list-item (click)="logout.emit()">
+        <ng-container
+          *ngTemplateOutlet="
+            navItem;
+            context: { item: { name: 'logout', icon: 'logout' } }
+          "
+        />
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="pt-14 xs:pt-16">
+    <ng-content />
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #navItem let-item="item">
+  <span class="flex items-center p-3 gap-4">
+    <mat-icon>{{ item.icon }}</mat-icon>
+    @if(!isCollapsed()) {
+    <span>{{ item.name }}</span>
+    }
+  </span>
+</ng-template>

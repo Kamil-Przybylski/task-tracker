@@ -1,24 +1,21 @@
-import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { AuthAccessService } from '@libs/core-web';
+import { IUiSideNavItem, UiSideNavComponent } from '@libs/shared-web';
 
 @Component({
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, UiSideNavComponent],
   selector: 'app-component',
   standalone: true,
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class AppComponent {
-  http = inject(HttpClient);
+  navItems: IUiSideNavItem[] = [
+    { name: 'home', icon: 'home', link: 'home' },
+    { name: 'dashboard', icon: 'dashboard', link: 'dashboard' },
+  ];
 
-  test() {
-    this.http.get('http://localhost:3900/api').subscribe(console.log);
-  }
-  logout() {
-    this.http
-      .get('http://localhost:3900/api/auth/logout/1')
-      .subscribe(console.log);
-    // location.reload();
-  }
+  authService = inject(AuthAccessService);
 }

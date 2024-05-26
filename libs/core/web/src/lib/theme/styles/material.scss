@@ -184,3 +184,9 @@ body {
   .mdc-notched-outline__notch {
   border-right-style: hidden;
 }
+
+// override backdrop color
+.mat-drawer-backdrop.mat-drawer-shown {
+  background-color: var(--background-800) !important;
+  opacity: 0.4;
+}

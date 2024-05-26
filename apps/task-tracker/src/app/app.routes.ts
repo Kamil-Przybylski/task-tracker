@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { AuthRoutesEnum } from '@libs/core-shared';
+import { AuthRoutesEnum, CommonRoutesEnum } from '@libs/core-shared';
 import { authGuardFunction, authenticationGuardFunction } from '@libs/core-web';
 
 export const appRoutes: Route[] = [
@@ -12,6 +12,17 @@ export const appRoutes: Route[] = [
     path: 'app',
     canActivate: [authGuardFunction],
     loadComponent: () => import('./app-component/app.component'),
+    children: [
+      { path: '', redirectTo: CommonRoutesEnum.HOME, pathMatch: 'full' },
+      {
+        path: CommonRoutesEnum.HOME,
+        loadChildren: () => import('./pages/home/home.routes'),
+      },
+      {
+        path: CommonRoutesEnum.DASHBOARD,
+        loadChildren: () => import('./pages/dashboard/dashboard.routes'),
+      },
+    ],
   },
   {
     path: AuthRoutesEnum.AUTH,

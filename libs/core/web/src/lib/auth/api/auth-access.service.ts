@@ -9,4 +9,8 @@ export class AuthAccessService {
   login(dto: ILoginPayload) {
     return this.#authStore.login(dto);
   }
+
+  logout() {
+    return this.#authStore.logout();
+  }
 }
