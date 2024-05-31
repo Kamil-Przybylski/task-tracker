@@ -8,7 +8,7 @@
     "lint:all": "nx run-many --all --target=lint --parallel",
     "test:all": "nx run-many --all --target=test --parallel --passWithNoTests",
     "test": "nx test %npm_config_project%",
-    "test:watch": "nx test %npm_config_project% --watch"
+    "test:watch": "nx test %npm_config_project% --testPathPattern=%npm_config_file% --watch"
   },
   "private": true,
   "dependencies": {

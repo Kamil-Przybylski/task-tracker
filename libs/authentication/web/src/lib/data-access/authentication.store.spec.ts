@@ -1,4 +1,8 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+import { TestBed, fakeAsync } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 import {
   AuthenticationRoutesEnum,
@@ -7,16 +11,17 @@ import {
   SignUpReqDto,
 } from '@libs/authentication-shared';
 import { AuthRoutesEnum, IUser } from '@libs/core-shared';
-import { AuthAccessService } from '@libs/core-web';
+import { APP_CONFIG, AuthAccessService } from '@libs/core-web';
 import { UserId } from '@libs/shared';
-import { TestUtils } from '@libs/shared-web';
 import { MockService } from 'ng-mocks';
-import { AuthenticationApiService } from './authentication-api.service';
 import { AuthenticationStore } from './authentication.store';
 
 describe('AuthenticationStore', () => {
+  let httpController: HttpTestingController;
+
   const setup = () => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       providers: [
         provideRouter([
           {
@@ -24,10 +29,7 @@ describe('AuthenticationStore', () => {
             component: class {},
           },
         ]),
-        {
-          provide: AuthenticationApiService,
-          useValue: MockService(AuthenticationApiService),
-        },
+        { provide: APP_CONFIG, useValue: { apiUrl: 'https://test.com' } },
         {
           provide: AuthAccessService,
           useValue: MockService(AuthAccessService),
@@ -36,12 +38,16 @@ describe('AuthenticationStore', () => {
       ],
     });
     const store = TestBed.inject(AuthenticationStore);
-    const apiServiceMock = TestBed.inject(AuthenticationApiService);
     const authAccessService = TestBed.inject(AuthAccessService);
     const router = TestBed.inject(Router);
+    httpController = TestBed.inject(HttpTestingController);
 
-    return { store, apiServiceMock, authAccessService, router };
+    return { store, authAccessService, router };
   };
+
+  afterEach(() => {
+    httpController.verify();
+  });
 
   it('should create a store', () => {
     const { store } = setup();
@@ -49,8 +55,8 @@ describe('AuthenticationStore', () => {
   });
 
   describe('signUp', () => {
-    it('should handle sign up with success', fakeAsync(() => {
-      const { store, apiServiceMock, router } = setup();
+    it('should handle sign up with success', () => {
+      const { store, router } = setup();
       const payload: SignUpReqDto = {
         username: 'user',
         email: 'test@ema.il',
@@ -64,61 +70,47 @@ describe('AuthenticationStore', () => {
         updatedDate: new Date(),
       };
       const routerSpy = jest.spyOn(router, 'navigate');
-      const signUpSpy = jest
-        .spyOn(apiServiceMock, 'signUp')
-        .mockImplementation(TestUtils.implementationOfAsync(res));
 
       expect(store.isPending()).toBe(false);
 
       store.signUp(payload);
       expect(store.isPending()).toBe(true);
-      expect(signUpSpy).toHaveBeenCalled();
-      expect(signUpSpy).toHaveBeenCalledWith(payload);
 
-      tick(0);
+      const req = httpController.expectOne(`https://test.com/auth/sing-up`);
+      req.flush(res);
+
       expect(store.isPending()).toBe(false);
       expect(routerSpy).toHaveBeenCalledWith([
         AuthRoutesEnum.AUTH,
         AuthenticationRoutesEnum.SING_IN,
       ]);
-    }));
+    });
 
-    it('should handle error when sign up fails', fakeAsync(() => {
-      const { store, apiServiceMock } = setup();
+    it('should handle error when sign up fails', () => {
+      const { store } = setup();
       const payload: SignUpReqDto = {
         username: 'user',
         email: 'test@ema.il',
         password: 'pass',
       };
-      const res: IUser = {
-        id: 1 as UserId,
-        username: '',
-        email: '',
-        createdDate: new Date(),
-        updatedDate: new Date(),
-      };
-      const signUnSpy = jest
-        .spyOn(apiServiceMock, 'signUp')
-        .mockImplementation(
-          TestUtils.implementationOfAsync(res, new Error('Error')),
-        );
 
       expect(store.isPending()).toBe(false);
 
       store.signUp(payload);
       expect(store.isPending()).toBe(true);
-      expect(signUnSpy).toHaveBeenCalled();
-      expect(signUnSpy).toHaveBeenCalledWith(payload);
+      const req = httpController.expectOne(`https://test.com/auth/sing-up`);
+      req.flush('Server Error', { status: 409, statusText: 'Email exist' });
 
-      tick(0);
       expect(store.isPending()).toBe(false);
-      expect(store.error()).toBe('Error');
-    }));
+      expect(store.error()).toBe(
+        'Http failure response for https://test.com/auth/sing-up: 409 Email exist',
+      );
+    });
   });
 
   describe('signIn', () => {
-    it('should handle sign in with success', fakeAsync(() => {
-      const { store, apiServiceMock, authAccessService, router } = setup();
+    it('should handle sign in with success', () => {
+      const { store, authAccessService, router } = setup();
       const payload: SignInReqDto = {
         email: 'test@ema.il',
         password: 'pass',
@@ -129,54 +121,39 @@ describe('AuthenticationStore', () => {
         refreshTokenExp: 0,
       };
       const routerSpy = jest.spyOn(router, 'navigate');
-      const signInSpy = jest
-        .spyOn(apiServiceMock, 'signIn')
-        .mockImplementation(TestUtils.implementationOfAsync(res));
       const loginSpy = jest.spyOn(authAccessService, 'login');
 
       expect(store.isPending()).toBe(false);
 
       store.signIn(payload);
       expect(store.isPending()).toBe(true);
-      expect(signInSpy).toHaveBeenCalled();
-      expect(signInSpy).toHaveBeenCalledWith(payload);
+      const req = httpController.expectOne(`https://test.com/auth/sing-in`);
+      req.flush(res);
 
-      tick(0);
       expect(store.isPending()).toBe(false);
       expect(loginSpy).toHaveBeenCalledWith(res);
       expect(routerSpy).toHaveBeenCalledWith(['']);
-    }));
+    });
 
     it('should handle error when sign in fails', fakeAsync(() => {
-      const { store, apiServiceMock } = setup();
+      const { store } = setup();
       const payload: SignUpReqDto = {
         username: 'user',
         email: 'test@ema.il',
         password: 'pass',
       };
-      const res: IUser = {
-        id: 1 as UserId,
-        username: '',
-        email: '',
-        createdDate: new Date(),
-        updatedDate: new Date(),
-      };
-      const signInSpy = jest
-        .spyOn(apiServiceMock, 'signUp')
-        .mockImplementation(
-          TestUtils.implementationOfAsync(res, new Error('Error')),
-        );
 
       expect(store.isPending()).toBe(false);
 
-      store.signUp(payload);
+      store.signIn(payload);
       expect(store.isPending()).toBe(true);
-      expect(signInSpy).toHaveBeenCalled();
-      expect(signInSpy).toHaveBeenCalledWith(payload);
+      const req = httpController.expectOne(`https://test.com/auth/sing-in`);
+      req.flush('Server Error', { status: 401, statusText: 'Unauthorized ' });
 
-      tick(0);
       expect(store.isPending()).toBe(false);
-      expect(store.error()).toBe('Error');
+      expect(store.error()).toBe(
+        'Http failure response for https://test.com/auth/sing-in: 401 Unauthorized ',
+      );
     }));
   });
 });
