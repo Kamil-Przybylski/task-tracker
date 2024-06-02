@@ -10,19 +10,19 @@
       data-test-id="input-username"
     />
     @if (usernameControl.hasError('required')) {
-    <mat-error
-      data-test-id="input-username-required"
-      data-test-type="input-error"
-    >
-      Field required!</mat-error
-    >
+      <mat-error
+        data-test-id="input-username-required"
+        data-test-type="input-error"
+      >
+        Field required!</mat-error
+      >
     } @else if (usernameControl.hasError('minlength')) {
-    <mat-error
-      data-test-id="input-username-minlength"
-      data-test-type="input-error"
-    >
-      Name too short!
-    </mat-error>
+      <mat-error
+        data-test-id="input-username-minlength"
+        data-test-type="input-error"
+      >
+        Name too short!
+      </mat-error>
     }
   </mat-form-field>
 
@@ -37,16 +37,19 @@
       data-test-id="input-email"
     />
     @if (emailControl.hasError('required')) {
-    <mat-error data-test-id="input-email-required" data-test-type="input-error">
-      Field required!
-    </mat-error>
+      <mat-error
+        data-test-id="input-email-required"
+        data-test-type="input-error"
+      >
+        Field required!
+      </mat-error>
     } @else if (emailControl.hasError('email')) {
-    <mat-error
-      data-test-id="input-email-invalidEmail"
-      data-test-type="input-error"
-    >
-      Invalid email!
-    </mat-error>
+      <mat-error
+        data-test-id="input-email-invalidEmail"
+        data-test-type="input-error"
+      >
+        Invalid email!
+      </mat-error>
     }
   </mat-form-field>
 
@@ -62,19 +65,19 @@
         data-test-id="input-password"
       />
       @if (passwordControl.hasError('required')) {
-      <mat-error
-        data-test-id="input-password-required"
-        data-test-type="input-error"
-      >
-        Field required!
-      </mat-error>
+        <mat-error
+          data-test-id="input-password-required"
+          data-test-type="input-error"
+        >
+          Field required!
+        </mat-error>
       } @else if (passwordControl.hasError('minlength')) {
-      <mat-error
-        data-test-id="input-password-minlength"
-        data-test-type="input-error"
-      >
-        Password too short!
-      </mat-error>
+        <mat-error
+          data-test-id="input-password-minlength"
+          data-test-type="input-error"
+        >
+          Password too short!
+        </mat-error>
       }
     </mat-form-field>
     <mat-form-field appearance="outline">
@@ -88,12 +91,12 @@
         data-test-id="input-repeatPassword"
       />
       @if (repeatPasswordControl.hasError('notEqual')) {
-      <mat-error
-        data-test-id="input-repeatPassword-notEqual"
-        data-test-type="input-error"
-      >
-        Passwords are not equal!
-      </mat-error>
+        <mat-error
+          data-test-id="input-repeatPassword-notEqual"
+          data-test-type="input-error"
+        >
+          Passwords are not equal!
+        </mat-error>
       }
     </mat-form-field>
   </ng-container>
