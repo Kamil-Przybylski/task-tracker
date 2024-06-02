@@ -3,7 +3,6 @@ import { AuthRoutesEnum, AuthRoutesParamsEnum } from '@libs/core-shared';
 import { JwtToken, UserId } from '@libs/shared';
 import { CookiesEnum, GetUser, JwtRefreshGuard } from '@libs/shared-api';
 import {
-  ClassSerializerInterceptor,
   Controller,
   Get,
   Param,
@@ -11,12 +10,10 @@ import {
   Res,
   UnauthorizedException,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 @Controller(AuthRoutesEnum.AUTH)
-@UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

@@ -1,18 +1,24 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 
-import { AuthenticationModule } from '@libs/authentication-api';
 import { AuthModule, ConfigRootModule, DatabaseModule } from '@libs/core-api';
-import { AppController } from './app.controller';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppAuthModule } from './auth/auth.module';
+import { AppWorkspaceModule } from './workspace/workspace.module';
 
 @Module({
   imports: [
     ConfigRootModule,
     DatabaseModule,
-    AppAuthModule,
     AuthModule,
-    AuthenticationModule,
+
+    AppAuthModule,
+    AppWorkspaceModule,
   ],
-  controllers: [AppController],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+  ],
 })
 export class AppModule {}

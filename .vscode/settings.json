@@ -3,6 +3,7 @@
     "Buildable",
     "devkit",
     "dtos",
+    "endregion",
     "fastify",
     "nestjs",
     "ngrx",
@@ -42,5 +43,6 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit"
   },
-  "eslint.format.enable": true
+  "eslint.format.enable": true,
+  "sqltools.connections": []
 }

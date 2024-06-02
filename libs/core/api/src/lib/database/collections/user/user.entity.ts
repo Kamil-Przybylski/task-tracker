@@ -1,6 +1,8 @@
 import { UserId } from '@libs/shared';
-import { Column, Entity } from 'typeorm';
-import { BaseEntity } from './base-entity';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { BaseEntity } from '../base-entity';
+import { WorkspaceUserEntity } from '../workspace/workspace-user.entity';
+import { WorkspaceEntity } from '../workspace/workspace.entity';
 
 @Entity()
 export class UserEntity extends BaseEntity<UserId> {
@@ -21,4 +23,10 @@ export class UserEntity extends BaseEntity<UserId> {
 
   @Column({ type: 'varchar', nullable: true })
   public avatarPath!: string;
+
+  @OneToMany(() => WorkspaceEntity, (entity) => entity.createdBy)
+  workspace!: WorkspaceEntity[];
+
+  @OneToMany(() => WorkspaceUserEntity, (entity) => entity.user)
+  workspaceToUser!: WorkspaceUserEntity[];
 }

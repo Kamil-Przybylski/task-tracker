@@ -2,13 +2,9 @@ import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { IConfig } from '../config/config.model';
-import {
-  TaskEntity,
-  TaskItemEntity,
-  UserEntity,
-  WorkspaceEntity,
-} from './collections';
-import { UserRepository } from './repositories';
+import { UserEntity, WorkspaceEntity } from './collections';
+import { WorkspaceUserEntity } from './collections/workspace/workspace-user.entity';
+import { UserRepository, WorkspaceRepository } from './repositories';
 
 @Global()
 @Module({
@@ -27,11 +23,10 @@ import { UserRepository } from './repositories';
     TypeOrmModule.forFeature([
       UserEntity,
       WorkspaceEntity,
-      TaskEntity,
-      TaskItemEntity,
+      WorkspaceUserEntity,
     ]),
   ],
-  providers: [UserRepository],
-  exports: [UserRepository],
+  providers: [UserRepository, WorkspaceRepository],
+  exports: [UserRepository, WorkspaceRepository],
 })
 export class DatabaseModule {}

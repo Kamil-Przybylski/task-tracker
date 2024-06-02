@@ -1,21 +1,13 @@
 import { UserId } from '@libs/shared';
+import { SqlErrorUtils } from '@libs/shared-api';
 import {
-  BadRequestException,
-  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import {
-  FindOneOptions,
-  IsNull,
-  Not,
-  QueryFailedError,
-  Repository,
-  UpdateResult,
-} from 'typeorm';
+import { FindOneOptions, IsNull, Not, Repository, UpdateResult } from 'typeorm';
 import { UserEntity } from '../collections';
 
 @Injectable()
@@ -40,13 +32,7 @@ export class UserRepository {
     try {
       return await this.usersRepository.save(user);
     } catch (error) {
-      if (
-        error instanceof QueryFailedError &&
-        error.message.toLowerCase().includes('unique')
-      ) {
-        throw new ConflictException(error.message);
-      }
-      throw new BadRequestException(error);
+      return SqlErrorUtils.handleSaveError(error);
     }
   }
 

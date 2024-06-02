@@ -1,0 +1,9 @@
+{
+  "name": "workspace-shared",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/workspace/shared/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "domain:workspace"],
+  "// targets": "to see all targets run: nx show project workspace-shared --web",
+  "targets": {}
+}

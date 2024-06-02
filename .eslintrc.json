@@ -32,6 +32,10 @@
                 "bannedExternalImports": ["@angular/*", "@nestjs/*"]
               },
               {
+                "sourceTag": "domain:shared",
+                "onlyDependOnLibsWithTags": ["domain:shared"]
+              },
+              {
                 "sourceTag": "domain:core",
                 "onlyDependOnLibsWithTags": ["domain:core", "domain:shared"]
               },
@@ -39,6 +43,14 @@
                 "sourceTag": "domain:authentication",
                 "onlyDependOnLibsWithTags": [
                   "domain:authentication",
+                  "domain:shared",
+                  "domain:core"
+                ]
+              },
+              {
+                "sourceTag": "domain:workspace",
+                "onlyDependOnLibsWithTags": [
+                  "domain:workspace",
                   "domain:shared",
                   "domain:core"
                 ]
@@ -53,7 +65,8 @@
       "extends": ["plugin:@nx/typescript"],
       "rules": {
         "@typescript-eslint/no-empty-function": "off",
-        "@typescript-eslint/no-non-null-assertion": "off"
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-empty-interface": "off"
       }
     },
     {

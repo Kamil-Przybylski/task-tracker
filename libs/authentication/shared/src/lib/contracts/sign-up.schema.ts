@@ -7,11 +7,13 @@ export const signUpReqSchema = z
     password: z.string(),
   })
   .required();
-export type SignUpReqDto = Required<z.infer<typeof signUpReqSchema>>;
+export interface ISignUpReqDto
+  extends Required<z.infer<typeof signUpReqSchema>> {}
 
 export const signUpResSchema = z
   .object({
     status: z.string(),
   })
   .required();
-export type SignUpResDto = Required<z.infer<typeof signUpResSchema>>;
+export interface ISignUpResDto
+  extends Required<z.infer<typeof signUpResSchema>> {}

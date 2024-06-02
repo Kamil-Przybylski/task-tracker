@@ -1,4 +1,4 @@
-import { MapKey, UserId } from '@libs/shared';
+import { UserId } from '@libs/shared';
 import { z } from 'zod';
 
 export const signInReqSchema = z
@@ -7,7 +7,8 @@ export const signInReqSchema = z
     password: z.string(),
   })
   .required();
-export type SignInReqDto = Required<z.infer<typeof signInReqSchema>>;
+export interface ISignInReqDto
+  extends Required<z.infer<typeof signInReqSchema>> {}
 
 export const signInResSchema = z
   .object({
@@ -16,8 +17,7 @@ export const signInResSchema = z
     refreshTokenExp: z.number(),
   })
   .required();
-export type SignInResDto = MapKey<
-  z.infer<typeof signInResSchema>,
-  'userId',
-  UserId
->;
+export interface ISignInResDto
+  extends Required<z.infer<typeof signInResSchema>> {
+  userId: UserId;
+}

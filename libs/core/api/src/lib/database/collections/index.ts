@@ -1,4 +1,3 @@
-export * from './task-item.entity';
-export * from './task.entity';
-export * from './user.entity';
-export * from './workspace.entity';
+export * from './user/user.entity';
+export * from './workspace/workspace-user.entity';
+export * from './workspace/workspace.entity';

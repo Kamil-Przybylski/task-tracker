@@ -1,10 +1,10 @@
 import { AuthenticationService } from '@libs/authentication-api';
 import {
   AuthenticationRoutesEnum,
-  SignInReqDto,
-  SignInResDto,
-  SignUpReqDto,
-  SignUpResDto,
+  ISignInReqDto,
+  ISignInResDto,
+  ISignUpReqDto,
+  ISignUpResDto,
   signInReqSchema,
   signUpReqSchema,
 } from '@libs/authentication-shared';
@@ -29,7 +29,9 @@ export class AuthenticationController {
 
   @Post(AuthenticationRoutesEnum.SING_UP)
   @UsePipes(new ZodValidationPipe(signUpReqSchema))
-  public async singUp(@Body() signUpDto: SignUpReqDto): Promise<SignUpResDto> {
+  public async singUp(
+    @Body() signUpDto: ISignUpReqDto,
+  ): Promise<ISignUpResDto> {
     await this.authService.signUp(signUpDto);
     return { status: 'created' };
   }
@@ -37,7 +39,7 @@ export class AuthenticationController {
   @Post(AuthenticationRoutesEnum.SING_IN)
   @UsePipes(new ZodValidationPipe(signInReqSchema))
   public async singIn(
-    @Body() signInDto: SignInReqDto,
+    @Body() signInDto: ISignInReqDto,
     @Res({ passthrough: true }) response: FastifyReply,
   ): Promise<void> {
     const { tokens, res } = await this.authService.signIn(signInDto);
@@ -51,6 +53,6 @@ export class AuthenticationController {
       path: '/',
       expires: new Date(res.refreshTokenExp),
     });
-    response.send(res satisfies SignInResDto);
+    response.send(res satisfies ISignInResDto);
   }
 }
