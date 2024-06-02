@@ -1,4 +1,4 @@
-import { WorkspaceUserEntity } from '@libs/core-api';
+import { WorkspaceUserEntity } from '@libs/core-api/database';
 import { InvitationStatusEnum, UserId, WorkspaceUserId } from '@libs/shared';
 import { IWorkspaceUserResDto } from '@libs/workspace-shared';
 

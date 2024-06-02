@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { AuthAccessService } from '@libs/core-web';
+import { AuthAccessService } from '@libs/core-web/auth';
 import { IUiSideNavItem, UiSideNavComponent } from '@libs/shared-web';
 
 @Component({

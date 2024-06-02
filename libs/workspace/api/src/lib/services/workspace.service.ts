@@ -1,4 +1,4 @@
-import { UserEntity, WorkspaceRepository } from '@libs/core-api';
+import { UserEntity, WorkspaceRepository } from '@libs/core-api/database';
 import { WorkspaceId, WorkspaceUserId } from '@libs/shared';
 import {
   ICreateWorkspaceReqDto,

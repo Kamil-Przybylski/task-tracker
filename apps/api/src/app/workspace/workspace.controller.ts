@@ -1,6 +1,7 @@
-import { UserEntity, ZodValidationPipe } from '@libs/core-api';
+import { GetUser, ZodValidationPipe } from '@libs/core-api/auth';
+import { UserEntity } from '@libs/core-api/database';
 import { WorkspaceId, WorkspaceUserId } from '@libs/shared';
-import { GetUser, JwtAuthGuard } from '@libs/shared-api';
+import { JwtAuthGuard } from '@libs/shared-api';
 import { WorkspaceService } from '@libs/workspace-api';
 import {
   ICreateWorkspaceReqDto,

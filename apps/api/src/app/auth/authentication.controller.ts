@@ -8,7 +8,7 @@ import {
   signInReqSchema,
   signUpReqSchema,
 } from '@libs/authentication-shared';
-import { ZodValidationPipe } from '@libs/core-api';
+import { ZodValidationPipe } from '@libs/core-api/auth';
 import { AuthRoutesEnum } from '@libs/core-shared';
 import { CookiesEnum } from '@libs/shared-api';
 import {

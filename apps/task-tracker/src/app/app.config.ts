@@ -6,8 +6,8 @@ import { AuthRoutesEnum } from '@libs/core-shared';
 import {
   authRedirectProvider,
   authorizationInterceptor,
-  provideAppConfig,
-} from '@libs/core-web';
+} from '@libs/core-web/auth';
+import { provideAppConfig } from '@libs/core-web/config';
 import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
 

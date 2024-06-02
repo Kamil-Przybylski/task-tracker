@@ -1,4 +1,4 @@
-import { IConfig } from '@libs/core-web';
+import { IConfig } from '@libs/core-web/config';
 
 export const environment: IConfig = {
   production: true,

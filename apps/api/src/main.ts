@@ -7,7 +7,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import fastifyCookie from '@fastify/cookie';
-import { IConfig } from '@libs/core-api';
+import { IConfig } from '@libs/core-api/config';
 import { ConfigService } from '@nestjs/config';
 import {
   FastifyAdapter,

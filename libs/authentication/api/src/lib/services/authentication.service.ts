@@ -3,7 +3,8 @@ import {
   ISignInResDto,
   ISignUpReqDto,
 } from '@libs/authentication-shared';
-import { TokenService, UserEntity, UserRepository } from '@libs/core-api';
+import { TokenService } from '@libs/core-api/auth';
+import { UserEntity, UserRepository } from '@libs/core-api/database';
 import { JwtToken } from '@libs/shared';
 import { Injectable } from '@nestjs/common';
 

@@ -1,4 +1,4 @@
-import { WorkspaceEntity } from '@libs/core-api';
+import { WorkspaceEntity } from '@libs/core-api/database';
 import { UserId, WorkspaceId } from '@libs/shared';
 import { IWorkspaceResDto, IWorkspaceUserResDto } from '@libs/workspace-shared';
 import { Exclude } from 'class-transformer';

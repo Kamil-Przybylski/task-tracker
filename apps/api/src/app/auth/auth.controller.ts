@@ -1,7 +1,8 @@
-import { AuthService, RefreshTokenResDto, UserEntity } from '@libs/core-api';
+import { AuthService, GetUser, RefreshTokenResDto } from '@libs/core-api/auth';
+import { UserEntity } from '@libs/core-api/database';
 import { AuthRoutesEnum, AuthRoutesParamsEnum } from '@libs/core-shared';
 import { JwtToken, UserId } from '@libs/shared';
-import { CookiesEnum, GetUser, JwtRefreshGuard } from '@libs/shared-api';
+import { CookiesEnum, JwtRefreshGuard } from '@libs/shared-api';
 import {
   Controller,
   Get,

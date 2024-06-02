@@ -7,7 +7,7 @@ import {
   ISignUpReqDto,
 } from '@libs/authentication-shared';
 import { AuthRoutesEnum } from '@libs/core-shared';
-import { APP_CONFIG } from '@libs/core-web';
+import { APP_CONFIG } from '@libs/core-web/config';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

@@ -11,7 +11,8 @@ import {
   ISignUpReqDto,
 } from '@libs/authentication-shared';
 import { AuthRoutesEnum, IUser } from '@libs/core-shared';
-import { APP_CONFIG, AuthAccessService } from '@libs/core-web';
+import { AuthAccessService } from '@libs/core-web/auth';
+import { APP_CONFIG } from '@libs/core-web/config';
 import { UserId } from '@libs/shared';
 import { MockService } from 'ng-mocks';
 import { AuthenticationStore } from './authentication.store';

@@ -7,7 +7,7 @@ import {
   ISignUpReqDto,
 } from '@libs/authentication-shared';
 import { AuthRoutesEnum } from '@libs/core-shared';
-import { AuthAccessService } from '@libs/core-web';
+import { AuthAccessService } from '@libs/core-web/auth';
 import { withRequestStatus } from '@libs/shared-web';
 import { tapResponse } from '@ngrx/operators';
 import { signalStore, withMethods } from '@ngrx/signals';
