@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { AuthAccessService } from '@libs/core-web/auth';
-import { IUiSideNavItem, UiSideNavComponent } from '@libs/shared-web';
+import { IUiSideNavItem, UiLayoutComponent } from '@libs/shared-web';
 
 @Component({
-  imports: [RouterOutlet, RouterLink, UiSideNavComponent],
+  imports: [RouterOutlet, RouterLink, UiLayoutComponent],
   selector: 'app-component',
   standalone: true,
   templateUrl: './app.component.html',

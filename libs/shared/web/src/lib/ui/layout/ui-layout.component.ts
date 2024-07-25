@@ -19,10 +19,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IUiSideNavItem } from './ui-side-nav.models';
+import { IUiSideNavItem } from './ui-layout.models';
 
 @Component({
-  selector: 'ui-side-nav',
+  selector: 'ui-layout',
   standalone: true,
   imports: [
     NgClass,
@@ -37,10 +37,10 @@ import { IUiSideNavItem } from './ui-side-nav.models';
     MatListModule,
     MatDividerModule,
   ],
-  templateUrl: './ui-side-nav.component.html',
+  templateUrl: './ui-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UiSideNavComponent {
+export class UiLayoutComponent {
   #screenSize$: Observable<boolean> = inject(BreakpointObserver)
     .observe(['(max-width: 800px)'])
     .pipe(map((screenSize) => screenSize.matches));

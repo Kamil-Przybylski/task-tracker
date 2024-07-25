@@ -1,2 +1,2 @@
-export * from './side-nav/ui-side-nav.component';
-export * from './side-nav/ui-side-nav.models';
+export * from './layout/ui-layout.component';
+export * from './layout/ui-layout.models';

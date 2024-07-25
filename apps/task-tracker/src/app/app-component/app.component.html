@@ -1,4 +1,4 @@
-<ui-side-nav [items]="navItems" (logout)="authService.logout()">
+<ui-layout [items]="navItems" (logout)="authService.logout()">
   <h1 ngProjectAs="header">Task Tracker</h1>
   <router-outlet></router-outlet>
-</ui-side-nav>
+</ui-layout>
